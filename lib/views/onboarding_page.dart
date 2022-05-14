@@ -3,7 +3,7 @@ import 'package:flutter_onboarding/controllers/onboarding_controller.dart';
 import 'package:get/state_manager.dart';
 
 class OnboardingPage extends StatelessWidget {
-  final controller = OnboardingController();
+  final _controller = OnboardingController();
 
   @override
   Widget build(BuildContext context) {
@@ -12,17 +12,18 @@ class OnboardingPage extends StatelessWidget {
         child: Stack(
           children: [
             PageView.builder(
-                onPageChanged: controller.selectedPageIndex,
-                itemCount: controller.onboardingPages.length,
+                controller: _controller.pageController,
+                onPageChanged: _controller.selectedPageIndex,
+                itemCount: _controller.onboardingPages.length,
                 itemBuilder: (ctx, i) {
                   return Container(
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(controller.onboardingPages[i].imageAsset),
+                        Image.asset(_controller.onboardingPages[i].imageAsset),
                         const SizedBox(height: 32),
                         Text(
-                          controller.onboardingPages[i].title,
+                          _controller.onboardingPages[i].title,
                           style: const TextStyle(
                               fontSize: 24, fontWeight: FontWeight.w500),
                         ),
@@ -30,7 +31,7 @@ class OnboardingPage extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 64),
                           child: Text(
-                            controller.onboardingPages[i].description,
+                            _controller.onboardingPages[i].description,
                             textAlign: TextAlign.center,
                             style: const TextStyle(fontSize: 18),
                           ),
@@ -42,18 +43,30 @@ class OnboardingPage extends StatelessWidget {
               left: 20,
               child: Row(
                 children: List.generate(
-                    controller.onboardingPages.length,
+                    _controller.onboardingPages.length,
                     (index) => Obx(() => Container(
                           margin: const EdgeInsets.all(4),
                           width: 12,
                           height: 12,
                           decoration: BoxDecoration(
-                            color: controller.selectedPageIndex.value == index
+                            color: _controller.selectedPageIndex.value == index
                                 ? Colors.red
                                 : Colors.grey,
                             shape: BoxShape.circle,
                           ),
                         ))),
+              ),
+            ),
+            Positioned(
+              right: 20,
+              bottom: 20,
+              child: FloatingActionButton(
+                elevation: 0,
+                child:
+                    Obx(() => Text(_controller.isLastPage ? 'Start' : 'Next')),
+                onPressed: () {
+                  _controller.nextPage();
+                },
               ),
             )
           ],
