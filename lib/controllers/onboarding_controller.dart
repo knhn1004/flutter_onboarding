@@ -1,6 +1,9 @@
 import 'package:flutter_onboarding/models/onboarding_info.dart';
+import 'package:get/state_manager.dart';
 
-class OnboardingController {
+class OnboardingController extends GetxController {
+  var selectedPageIndex = 0.obs;
+
   List<OnboardingInfo> onboardingPages = [
     OnboardingInfo(
       'assets/order.png',
@@ -15,7 +18,7 @@ class OnboardingController {
     OnboardingInfo(
       'assets/deliver.png',
       'Quick Delivery',
-      'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vitae, quos!',
+      'Lorem, ipsum Gggor sit amet consectetur adipisicing elit. Vitae, quos!',
     ),
   ];
 }
